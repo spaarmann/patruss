@@ -1,8 +1,16 @@
 #include <iostream>
+#include <SDL.h>
+
+#include "util/util.h"
 
 int main(int argc, char **argv)
 {
-	std::cout << "Hello World!" << std::endl;
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		LOG_ERROR_SDL("SDL_Init");
+	}
+
+	SDL_Quit();
 
 	return 0;
 }
