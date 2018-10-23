@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <GL/glew.h>
 #include <SDL_error.h>
 
 enum LogLevel
@@ -49,4 +50,5 @@ void log(LogLevel level, const std::string& function, const std::string& file, i
 #define LOG_WARN(...) log(llWarn, __func__, __FILE__, __LINE__, __VA_ARGS__)
 #define LOG_ERROR(...) log(llError, __func__, __FILE__, __LINE__, __VA_ARGS__)
 
-#define LOG_ERROR_SDL(s) log(llError, __func__, __FILE__, __LINE__, s, ": ", SDL_GetError());
+#define LOG_ERROR_SDL(s) log(llError, __func__, __FILE__, __LINE__, s, ": ", SDL_GetError())
+#define LOG_ERROR_GLEW(s, c) log(llError, __func__, __FILE__, __LINE__, s, ": ", glewGetErrorString(c))
