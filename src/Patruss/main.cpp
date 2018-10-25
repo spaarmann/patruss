@@ -4,6 +4,9 @@
 #include "common.h"
 #include "rendering/window.h"
 #include "rendering/shader.h"
+#include "rendering/renderables/TestRenderable.h"
+
+#include <chrono>
 
 int main(int argc, char **argv)
 {
@@ -18,27 +21,14 @@ int main(int argc, char **argv)
 		rendering::Window window("Patruss", 640, 480);
 		rendering::Shader shader("default");
 
-		GLuint vertexArrayID;
-		glGenVertexArrays(1, &vertexArrayID);
-		glBindVertexArray(vertexArrayID);
-
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-		
-		const GLfloat triangleVertices[] = {
-			-1.0f, -1.0f, 0.0f,
-			1.0f, -1.0f, 0.0f,
-			0.0f,  1.0f, 0.0f,
-		};
-
-		GLuint vertexBuffer;
-		glGenBuffers(1, &vertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
+		rendering::renderable::TestRenderable test{};
 
 		SDL_Event e;
 		auto running = true;
 		while (running)
 		{
+			const auto frameStart = std::chrono::high_resolution_clock::now();
+
 			while (SDL_PollEvent(&e))
 			{
 				switch (e.type)
@@ -54,15 +44,15 @@ int main(int argc, char **argv)
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			shader.Use();
-			glEnableVertexAttribArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-			glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
 
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-
-			glDisableVertexAttribArray(0);
+			test.Bind();
+			test.Render();
 
 			window.Swap();
+
+			const auto frameEnd = std::chrono::high_resolution_clock::now();
+			auto frameTime = std::chrono::duration_cast<std::chrono::microseconds>(frameEnd - frameStart);
+			std::cout << "Frame time: " << frameTime.count() << "microseconds" << std::endl;
 		}
 	}
 	catch (std::exception& e)

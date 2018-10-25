@@ -19,6 +19,8 @@ namespace rendering {
 		Window(std::string title, int width, int height);
 		~Window();
 
+		DELETE_COPY_AND_MOVE(Window);
+
 		SDL_GLContext& GetContext();
 		void Swap();
 	};

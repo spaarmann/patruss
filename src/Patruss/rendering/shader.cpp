@@ -11,8 +11,6 @@ rendering::Shader::Shader(const std::string& name)
 	vertexSourceBuffer << vertexIn.rdbuf();
 	const auto vertexSource = vertexSourceBuffer.str();
 
-	//LOG_INFO("Vertex Source: ", vertexSource.str());
-
 	std::ifstream fragmentIn("res/shaders/" + name + ".frag");
 	std::stringstream fragmentSourceBuffer;
 	fragmentSourceBuffer << fragmentIn.rdbuf();
