@@ -8,6 +8,8 @@
 
 #include <chrono>
 
+#include "math/mat4.h"
+
 int main(int argc, char **argv)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -55,7 +57,7 @@ int main(int argc, char **argv)
 			std::cout << "Frame time: " << frameTime.count() << "microseconds" << std::endl;
 		}
 	}
-	catch (std::exception& e)
+	catch (std::exception&)
 	{
 		return EXIT_FAILURE;
 	}
